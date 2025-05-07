@@ -1,0 +1,21 @@
+200
+source 2 58
+force 0 0 1 171
+source 7 91
+source 4 79
+force 0 1 0 41
+force 0 0 1 90
+force 1 0 0 75
+force 0 0 1 72
+force 1 0 0 188
+source 7 116
+force 0 1 0 71
+force 1 0 0 30
+source 1 104
+source 4 6
+force 1 0 0 79
+source 8 47
+source 3 31
+source 1 142
+force 1 0 0 96
+source 3 33
