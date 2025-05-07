@@ -1,0 +1,99 @@
+Arquitetura de Microserviços para Filtros de Edição
+
+
+Microserviço de Recorte de Imagens
+-Responsabilidades: Realizar o recorte manual de imagens com base nas coordenadas fornecidas pelo utilizador.
+-Entrada: Imagem original e parâmetros de recorte (e.g., coordenadas x, y, largura, altura).
+-Saída: Imagem recortada.
+-Tecnologias: OpenCV, PIL (Python Imaging Library).
+
+
+Microserviço de Redimensionamento de Imagens
+-Responsabilidades: Redimensionar imagens para dimensões específicas, mantendo ou não a proporção.
+-Entrada: Imagem original, nova largura e altura.
+-Saída: Imagem redimensionada.
+-Tecnologias: OpenCV, imagemagick.
+
+
+Microserviço de Ajuste de Saturação
+-Responsabilidades: Ajustar a saturação das cores de uma imagem.
+-Entrada: Imagem original e nível de saturação desejado.
+-Saída: Imagem com saturação ajustada.
+-Tecnologias: OpenCV, PIL.
+
+
+Microserviço de Ajuste de Brilho
+-Responsabilidades: Alterar o brilho da imagem.
+-Entrada: Imagem original e nível de brilho.
+-Saída: Imagem com brilho ajustado.
+-Tecnologias: OpenCV, PIL.
+
+
+Microserviço de Ajuste de Contraste
+-Responsabilidades: Modificar o contraste de uma imagem.
+-Entrada: Imagem original e nível de contraste.
+-Saída: Imagem com contraste ajustado.
+-Tecnologias: OpenCV, PIL.
+
+
+Microserviço de Binarização
+-Responsabilidades: Converter a imagem em preto e branco usando um limiar.
+-Entrada: Imagem original e valor do limiar.
+-Saída: Imagem binarizada.
+-Tecnologias: OpenCV.
+
+
+Microserviço de Rotação de Imagens
+-Responsabilidades: Rodar a imagem por um ângulo específico.
+-Entrada: Imagem original e ângulo de rotação.
+-Saída: Imagem rotacionada.
+-Tecnologias: OpenCV, imagemagick.
+
+
+Microserviço de Recorte Inteligente
+-Responsabilidades: Realizar um recorte automático com base no conteúdo da imagem.
+-Entrada: Imagem original.
+-Saída: Imagem recortada automaticamente.
+-Tecnologias: Modelos de IA, OpenCV.
+
+
+Microserviço de Ajuste Automático
+-Responsabilidades: Ajustar brilho, contraste e saturação automaticamente com base no conteúdo da imagem.
+-Entrada: Imagem original.
+-Saída: Imagem ajustada automaticamente.
+-Tecnologias: Algoritmos de otimização de imagem.
+
+
+Microserviço de Remoção de Fundo
+-Responsabilidades: Remover o fundo de uma imagem, deixando apenas o objeto principal.
+-Entrada: Imagem original.
+-Saída: Imagem com fundo removido.
+-Tecnologias: Modelos de segmentação de imagem, OpenCV.
+
+
+Microserviço de OCR (Reconhecimento Óptico de Caracteres)
+-Responsabilidades: Extrair texto de imagens.
+-Entrada: Imagem original.
+-Saída: Texto extraído.
+-Tecnologias: Tesseract OCR, OpenCV.
+
+
+Microserviço de Reconhecimento de Objetos
+-Responsabilidades: Identificar e etiquetar objetos dentro de uma imagem.
+-Entrada: Imagem original.
+-Saída: Lista de objetos identificados e suas localizações.
+-Tecnologias: Modelos de deep learning (e.g., YOLO, TensorFlow).
+
+
+Microserviço de Contagem de Pessoas
+-Responsabilidades: Contar o número de pessoas presentes numa imagem.
+-Entrada: Imagem original.
+-Saída: Número de pessoas contadas.
+-Tecnologias: Modelos de detecção de pessoas, OpenCV.
+
+
+Microserviço de Adição de Bordas
+-Responsabilidades: Adicionar bordas coloridas a imagens.
+-Entrada: Imagem original e cor da borda.
+-Saída: Imagem com borda adicionada.
+-Tecnologias: OpenCV, PIL.

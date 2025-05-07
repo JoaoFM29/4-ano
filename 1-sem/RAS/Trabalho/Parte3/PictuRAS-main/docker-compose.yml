@@ -1,0 +1,379 @@
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web-client
+      - api-gateway
+      - wsgateway
+    links:
+      - web-client
+      - api-gateway
+      - wsgateway
+
+  web-client:
+    container_name: web-client
+    build:
+      context: ./frontend/pictuRas
+      dockerfile: Dockerfile 
+    environment:
+      - VITE_API_GATEWAY=http://api-gateway:3000
+      - VITE_WS_GATEWAY=ws://wsgateway:8764
+    ports:
+      - "90:90"
+    depends_on:
+      - api-gateway
+      - wsgateway
+    links:
+      - api-gateway
+      - wsgateway
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./backend/api
+      dockerfile: Dockerfile 
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-mongodb
+    links:
+      - api-mongodb
+
+####################
+####### APPS #######
+####################
+
+  users-app:
+    container_name: users-app
+    build:
+      context: ./backend/users_app
+      dockerfile: Dockerfile 
+    ports:
+      - "3005:3005"
+    depends_on:
+      - users-mongodb
+    links:
+      - users-mongodb
+
+  plans-app:
+    container_name: plans-app
+    build:
+      context: ./backend/plans_app
+      dockerfile: Dockerfile 
+    ports:
+      - "3004:3004"
+    depends_on:
+      - plans-mongodb
+    links:
+      - plans-mongodb
+
+  projects-app:
+    container_name: projects-app
+    build:
+      context: ./backend/projects_app
+      dockerfile: Dockerfile 
+    ports:
+      - "3003:3003"
+    depends_on:
+      - projects-mongodb
+      - images-app
+    links:
+      - projects-mongodb
+      - images-app
+
+  images-app:
+    container_name: images-app
+    build:
+      context: ./backend/images_app
+      dockerfile: Dockerfile 
+    ports:
+      - "3002:3002"
+    depends_on:
+      - images-mongodb
+    links:
+      - images-mongodb
+
+  tools-app:
+    container_name: tools-app
+    build:
+      context: ./backend/tools_app
+      dockerfile: Dockerfile 
+    ports:
+      - "3001:3001"
+    depends_on:
+      - tools-mongodb
+    links:
+      - tools-mongodb
+
+####################
+####### DBS ########
+####################
+
+  users-mongodb:
+    container_name: users-db
+    image: mongo:latest
+    ports:
+      - "27005:27017"
+
+  plans-mongodb:
+    container_name: plans-db
+    image: mongo:latest
+    ports:
+      - "27004:27017"
+    depends_on:
+      - plans-mongo-seed
+
+  projects-mongodb:
+    container_name: projects-db
+    image: mongo:latest
+    ports:
+     - "27003:27017"
+
+  images-mongodb:
+    container_name: images-db
+    image: mongo:latest
+    ports:
+      - "27002:27017"
+
+  tools-mongodb:
+    container_name: tools-db
+    image: mongo:latest
+    ports:
+      - "27001:27017"
+    depends_on:
+      - tools-mongo-seed
+  
+  api-mongodb:
+    container_name:  api-mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+####################
+###### SEEDS #######
+####################
+
+  plans-mongo-seed:
+    image: mongo:latest
+    volumes:
+      - ./backend/db/plans.json:/plans.json
+    command: mongoimport --host plans-db --port 27017 -d picturas-plans -c plans --type json --file /plans.json --jsonArray
+
+  tools-mongo-seed:
+    image: mongo:latest
+    volumes:
+      - ./backend/db/tools.json:/tools.json
+    command: mongoimport --host tools-db --port 27017 -d picturas-tools -c tools --type json --file /tools.json --jsonArray
+
+####################
+###### TOOLS #######
+####################
+
+  autocrop-worker:
+    container_name: autocrop-worker
+    build:
+      context:  ./backend/tools/autocrop
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  binarization-worker:
+    container_name: binarization-worker
+    build:
+      context:  ./backend/tools/binarization
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  border-worker:
+    container_name: border-worker
+    build:
+      context: ./backend/tools/border
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  brightness-worker:
+    container_name: brightness-worker
+    build:
+      context:  ./backend/tools/brightness
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  contrast-worker:
+    container_name: contrast-worker
+    build:
+      context:  ./backend/tools/contrast
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  crop-worker:
+    container_name: crop-worker
+    build:
+      context:  ./backend/tools/crop
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  objectcounter-worker:
+    container_name: objectcounter-worker
+    build:
+      context: ./backend/tools/objectcounter
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  ocr-worker:
+    container_name: ocr-worker
+    build:
+      context: ./backend/tools/ocr
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  # peoplecounter-worker:
+  #   container_name: peoplecounter-worker
+  #   build:
+  #     context: ./backend/tools/peoplecounter
+  #     dockerfile: Dockerfile
+  #   links:
+  #     - rabbitmq
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+
+  rotate-worker:
+    container_name: rotate-worker
+    build:
+      context:  ./backend/tools/rotate
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  scale-worker:
+    container_name: scale-worker
+    build:
+      context:  ./backend/tools/scale
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  watermark-worker:
+    container_name: watermark-worker
+    build:
+      context: ./backend/tools/watermark
+      dockerfile: Dockerfile
+    links:
+      - rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+####################
+####### WS #########
+####################
+
+  ws-app:
+    container_name: ws-app
+    build:
+      context: ./backend/ws
+      dockerfile: Dockerfile
+    ports:
+      - "8765:8765"
+    links:
+      - rabbitmq
+      - projects-app
+      - users-app
+      - plans-app
+      - images-app
+      - tools-app
+    depends_on:
+      users-app:
+        condition: service_started
+      plans-app:
+        condition: service_started
+      tools-app:
+        condition: service_started
+      projects-app:
+        condition: service_started
+      images-app:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+####################
+#### WSGATEWAY #####
+####################
+
+  wsgateway:
+    container_name: wsgateway
+    build:
+      context: ./backend/wsgateway
+      dockerfile: Dockerfile
+    ports:
+      - "8764:8764"
+    links:
+      - ws-app
+    depends_on:
+      ws-app:
+        condition: service_started
+
+####################
+####### BUS ########
+####################
+
+  rabbitmq:
+    container_name: picturas-rabbitmq
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/
+      - rabbitmq-logs:/var/log/rabbitmq/
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 5s
+      timeout: 30s
+
+volumes:
+  rabbitmq-data: 
+  rabbitmq-logs:

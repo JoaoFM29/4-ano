@@ -1,0 +1,159 @@
+[{
+        "name": "Binarization",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": []
+    },
+    {
+        "name": "Border",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+                "name": "border_width",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1000
+            },
+            {
+                "name": "border_height",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1000
+            },
+            {
+                "name": "border_color",
+                "type": "hex",
+                "value": "#000000",
+                "min_value": "#000000",
+                "max_value": "#FFFFFF"
+            }
+        ]
+    },
+    {
+        "name": "Brightness",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+            "name": "brightness",
+            "type": "float",
+            "value": 0,
+            "min_value": -1,
+            "max_value": 1
+        }]
+    },
+    {
+        "name": "Contrast",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+            "name": "contrast",
+            "type": "float",
+            "value": 1,
+            "min_value": -100,
+            "max_value": 100
+        }]
+    },
+    {
+        "name": "Crop",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+                "name": "width",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1920
+            },
+            {
+                "name": "height",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1080
+            },
+            {
+                "name": "x_top_left",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1920
+            },
+            {
+                "name": "y_top_left",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1080
+            }
+        ]
+    },
+    {
+        "name": "Object Counter",
+        "input_type": "image",
+        "output_type": "text",
+        "premium": true,
+        "parameters": []
+    },
+    {
+        "name": "OCR",
+        "input_type": "image",
+        "output_type": "text",
+        "premium": true,
+        "parameters": []
+    },
+    {
+        "name": "Remove Background",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": true,
+        "parameters": []
+    },
+    {
+        "name": "Rotate",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+            "name": "angle",
+            "type": "int",
+            "value": 0,
+            "min_value": 0,
+            "max_value": 360
+        }]
+    },
+    {
+        "name": "Scale",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": [{
+                "name": "width",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1920
+            },
+            {
+                "name": "height",
+                "type": "int",
+                "value": 0,
+                "min_value": 0,
+                "max_value": 1080
+            }
+        ]
+    },
+    {
+        "name": "Watermark",
+        "input_type": "image",
+        "output_type": "image",
+        "premium": false,
+        "parameters": []
+    }
+]
