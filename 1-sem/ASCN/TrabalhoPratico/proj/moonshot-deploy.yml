@@ -1,0 +1,8 @@
+- name: "Install PostgreSQL & Moonshot with Kubernetes"
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: k8s-postgres
+      tags: ["postgres"]
+    - role: k8s-moonshot
+      tags: ["moonshot"]

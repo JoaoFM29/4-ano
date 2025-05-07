@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ moonshot_host }}"
+  labels:
+    app: moonshot
+    tier: app
+  namespace: default
+spec:
+  type: LoadBalancer  # Changed from NodePort to LoadBalancer
+  selector:
+    app: moonshot
+  ports:
+    - name: http
+      protocol: TCP
+      targetPort: 8000  # Port the moonshot container listens on
+      port: {{ app_port }}         # Port to expose outside the cluster

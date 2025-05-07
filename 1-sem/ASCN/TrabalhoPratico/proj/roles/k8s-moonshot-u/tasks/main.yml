@@ -1,0 +1,107 @@
+- name: Deletar o Service do Moonshot
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: "{{ moonshot_host }}"
+        namespace: default
+  tags: moonshot
+
+- name: Esperar pela remoção do Service do Moonshot
+  kubernetes.core.k8s_info:
+    kind: Service
+    namespace: default
+    label_selectors:
+      - app=moonshot
+  register: moonshot_service_info
+  retries: 10
+  delay: 10
+  until: moonshot_service_info.resources | length == 0
+  tags: moonshot
+- name: Garantir que o app_ip é atualizado no ficheiro YML
+  lineinfile:
+    path: "./inventory/gcp.yml"
+    regexp: "app_ip:.*"
+    line: "      app_ip:"
+
+- name: Deletar o Deployment do Moonshot
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: moonshot-deployment
+        namespace: default
+  tags: moonshot
+
+- name: Esperar pela remoção do Deployment do Moonshot
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: default
+    label_selectors:
+      - app=moonshot
+  register: moonshot_deployment_info
+  retries: 10
+  delay: 10
+  until: moonshot_deployment_info.resources | length == 0
+  tags: moonshot
+
+- name: Deletar o Secret do Moonshot
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: moonshot-secret
+        namespace: default
+  tags: moonshot
+
+- name: Esperar pela remoção do Secret do Moonshot
+  kubernetes.core.k8s_info:
+    kind: Secret
+    namespace: default
+    label_selectors:
+      - app=moonshot
+  register: moonshot_secret_info
+  retries: 10
+  delay: 10
+  until: moonshot_secret_info.resources | length == 0
+  tags: moonshot
+
+- name: Undeploy do HPA
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: autoscaling/v1
+      kind: HorizontalPodAutoscaler
+      metadata:
+        name: moonshot-hpa
+        namespace: default
+  tags: ['hpa', 'undeploy']
+
+- name: Deletar o Pod do Moonshot
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: moonshot
+        namespace: default
+  tags: moonshot
+
+- name: Esperar pela remoção do Pod do Moonshot
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: default
+    label_selectors:
+      - app=moonshot
+  register: moonshot_pod_info
+  retries: 10
+  delay: 10
+  until: moonshot_pod_info.resources | length == 0
+  tags: moonshot

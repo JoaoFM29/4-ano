@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moonshot-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moonshot
+  template:
+    metadata:
+      labels:
+        app: moonshot
+    spec:
+      containers:
+      - name: moonshot
+        image: "{{ moonshot_image }}"
+        resources:
+          requests:
+            cpu: 150m  # Required for HPA to work
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: moonshot-secret
+              key: DB_HOST
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: moonshot-secret
+              key: DB_DATABASE
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: moonshot-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: moonshot-secret
+              key: DB_PASSWORD
+        ports:
+        - containerPort: 8000

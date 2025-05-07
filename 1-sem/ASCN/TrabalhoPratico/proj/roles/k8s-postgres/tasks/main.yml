@@ -1,0 +1,46 @@
+- name: Create a Secret for PostgreSQL deployment
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'postgres-secret.yml') | from_yaml }}"
+    state: present
+    wait: true
+  tags: postgres
+
+- name: Create a PVC for PostgreSQL
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'postgres-pvc.yml') | from_yaml }}"
+    state: present
+    wait: true
+
+- name: Create a Deployment for PostgreSQL
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'postgres-deployment.yml') | from_yaml }}"
+    state: present
+    wait: true
+    wait_timeout: 600
+
+- name: Create a service for exposing PostgreSQL
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'postgres-service.yml') | from_yaml }}"
+    wait: true
+
+- name: Wait till PostgreSQL pod is created
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: default
+    label_selectors:
+      - app=postgres
+    wait: true
+    wait_sleep: 5
+    wait_timeout: 600
+  register: postgres_pod_info
+
+- name: Wait until PostgreSQL is ready to accept connections
+  kubernetes.core.k8s_exec:
+    namespace: default
+    pod: "{{ postgres_pod_info.resources[0].metadata.name }}"
+    command: psql -U {{ db_user }} -d {{ db_name }} -c "\l"
+  register: postgres_login
+  retries: 5
+  delay: 300
+  until: postgres_login.rc == 0

@@ -1,0 +1,9 @@
+- name: "Remove PostgreSQL & Moonshot with Kubernetes"
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: k8s-postgres-u
+      tags: ["postgres"]
+    - role: k8s-moonshot-u
+      tags: ["moonshot"]
+

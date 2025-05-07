@@ -1,0 +1,10 @@
+[Task-1] Checking directory structure... OK!
+[Task-2] Building Moonshot image... OK!
+[Task-3] Creating Docker network... OK!
+[Task-3] Starting Postgres container ... OK!
+[Task-3] Waiting for Postgres to be ready... OK!
+[Task-4] Starting Moonshot container... OK!
+[Task-4] Check if Moonshot container is still running... OK!
+[Task-5] Checking access to Moonshot... OK!
+
+	 - OK! Moonshot is accessible!

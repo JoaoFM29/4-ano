@@ -1,0 +1,107 @@
+- name: Deletar o PVC do PostgreSQL (se delete_data for verdadeiro)
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: postgres-pvc
+        namespace: default
+  when: delete_data | bool
+  tags: postgres
+
+  
+- name: Deletar o Service do PostgreSQL
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: "{{ db_host }}"
+        namespace: default
+  tags: postgres
+
+- name: Esperar pela remoção do Service do PostgreSQL
+  kubernetes.core.k8s_info:
+    kind: Service
+    namespace: default
+    label_selectors:
+      - app=postgres
+  register: postgres_service_info
+  retries: 10
+  delay: 10
+  until: postgres_service_info.resources | length == 0
+  tags: postgres
+
+- name: Deletar o Deployment do PostgreSQL
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: postgres-deployment
+        namespace: default
+    wait: true
+    wait_timeout: 120
+    force: true
+  tags: postgres
+
+- name: Esperar pela remoção do Deployment do PostgreSQL
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: default
+    label_selectors:
+      - app=postgres
+  register: postgres_deployment_info
+  retries: 10
+  delay: 10
+  until: postgres_deployment_info.resources | length == 0
+  tags: postgres
+  
+- name: Deletar o Secret do PostgreSQL
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: postgres-secret
+        namespace: default
+  tags: postgres
+
+- name: Esperar pela remoção do Secret do PostgreSQL
+  kubernetes.core.k8s_info:
+    kind: Secret
+    namespace: default
+    label_selectors:
+      - app=postgres
+  register: postgres_secret_info
+  retries: 10
+  delay: 10
+  until: postgres_secret_info.resources | length == 0
+  tags: postgres
+
+- name: Deletar o Pod do PostgreSQL
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: postgres
+        namespace: default
+  tags: postgres
+
+- name: Esperar pela remoção do Pod do PostgreSQL
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: default
+    label_selectors:
+      - app=postgres
+  register: postgres_pod_info
+  retries: 10
+  delay: 10
+  until: postgres_pod_info.resources | length == 0
+  tags: postgres

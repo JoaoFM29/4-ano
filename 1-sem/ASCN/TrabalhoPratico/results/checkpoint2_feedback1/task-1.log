@@ -1,0 +1,45 @@
+[Task-1] Checking directory structure...
+[Task-1] OK! Directory structure is correct!
+[Task-1] Preparing tests setup...
+[Task-1] Setup OK!
+[Task-1] Starting test 1
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+TASK [k8s-postgres : Create a Secret for PostgreSQL deployment] ****************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a PVC for PostgreSQL] ******************************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a Deployment for PostgreSQL] ***********************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a service for exposing PostgreSQL] *****************
+changed: [localhost]
+
+TASK [k8s-postgres : Wait till PostgreSQL pod is created] **********************
+ok: [localhost]
+
+TASK [k8s-postgres : Wait until PostgreSQL is ready to accept connections] *****
+[DEPRECATION WARNING]: The 'return_code' return key is being renamed to 'rc'. 
+Both keys are being returned for now to allow users to migrate their 
+automation. This feature will be removed from kubernetes.core in version 4.0.0.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+changed: [localhost]
+
+TASK [k8s-moonshot : Create a Kubernetes Secret for Moonshot] ******************
+changed: [localhost]
+
+TASK [k8s-moonshot : Create a Deployment for Moonshot] *************************
+changed: [localhost]
+
+TASK [k8s-moonshot : Reservar um IP estático no Google Cloud] ******************
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "GCP returned error: {'error': {'code': 403, 'message': \"Required 'compute.addresses.get' permission for 'projects/ascn2425/regions/us-central1/addresses/moonshot-service-ip'\", 'errors': [{'message': \"Required 'compute.addresses.get' permission for 'projects/ascn2425/regions/us-central1/addresses/moonshot-service-ip'\", 'domain': 'global', 'reason': 'forbidden'}]}}", "request": {"body": null, "method": "GET", "url": "https://compute.googleapis.com/compute/v1/projects/ascn2425/regions/us-central1/addresses/moonshot-service-ip"}}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=8    changed=7    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

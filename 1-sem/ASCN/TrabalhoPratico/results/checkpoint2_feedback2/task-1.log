@@ -1,0 +1,109 @@
+[Task-1] Checking directory structure...
+[Task-1] OK! Directory structure is correct!
+[Task-1] Preparing tests setup...
+[Task-1] Setup OK!
+[Task-1] Starting test 1
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+TASK [k8s-postgres : Create a Secret for PostgreSQL deployment] ****************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a PVC for PostgreSQL] ******************************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a Deployment for PostgreSQL] ***********************
+changed: [localhost]
+
+TASK [k8s-postgres : Create a service for exposing PostgreSQL] *****************
+changed: [localhost]
+
+TASK [k8s-postgres : Wait till PostgreSQL pod is created] **********************
+ok: [localhost]
+
+TASK [k8s-postgres : Wait until PostgreSQL is ready to accept connections] *****
+[DEPRECATION WARNING]: The 'return_code' return key is being renamed to 'rc'. 
+Both keys are being returned for now to allow users to migrate their 
+automation. This feature will be removed from kubernetes.core in version 4.0.0.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+changed: [localhost]
+
+TASK [k8s-moonshot : Create a Kubernetes Secret for Moonshot] ******************
+changed: [localhost]
+
+TASK [k8s-moonshot : Create a Deployment for Moonshot] *************************
+changed: [localhost]
+
+TASK [k8s-moonshot : Create a Service for Moonshot] ****************************
+changed: [localhost]
+
+TASK [k8s-moonshot : Wait till Moonshot pod is created] ************************
+ok: [localhost]
+
+TASK [k8s-moonshot : Check if seed_database flag is true] **********************
+ok: [localhost] => {
+    "msg": "Flag seed_database is set to true, running database seed"
+}
+
+TASK [k8s-moonshot : Populate the Postgres database] ***************************
+changed: [localhost]
+
+TASK [k8s-moonshot : Wait for the LoadBalancer Service to become available] ****
+FAILED - RETRYING: [localhost]: Wait for the LoadBalancer Service to become available (10 retries left).
+FAILED - RETRYING: [localhost]: Wait for the LoadBalancer Service to become available (9 retries left).
+FAILED - RETRYING: [localhost]: Wait for the LoadBalancer Service to become available (8 retries left).
+FAILED - RETRYING: [localhost]: Wait for the LoadBalancer Service to become available (7 retries left).
+FAILED - RETRYING: [localhost]: Wait for the LoadBalancer Service to become available (6 retries left).
+ok: [localhost]
+
+TASK [k8s-moonshot : Assigning the IP to the app_ip variable] ******************
+ok: [localhost]
+
+TASK [k8s-moonshot : Display access IP address] ********************************
+ok: [localhost] => {
+    "app_ip": "34.135.93.63"
+}
+
+TASK [k8s-moonshot : Changing the value of the app_ip variable in the all.yml file] ***
+changed: [localhost]
+
+PLAY [[Test 1] Test access to Moonshot] ****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [test_moonshot/test_service : Refresh inventory] **************************
+
+TASK [test_moonshot/test_service : Task 0 - Check access to App (HTTP GET should return 200)] ***
+FAILED - RETRYING: [localhost]: Task 0 - Check access to App (HTTP GET should return 200) (15 retries left).
+ok: [localhost]
+
+TASK [test_moonshot/test_service : Skip the rest of the tasks if result.status != 200] ***
+skipping: [localhost]
+
+PLAY [[Test 2] - Create a new Digital Green Certificate] ***********************
+
+PLAY [[Test 2] - Accessing Digital Green Certificate] **************************
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY [[Test 3] Test access to Moonshot (should fail)] **************************
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 4] - Accessing Digital Green Certificate after reboot] *************
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 5] - Accessing Digital Green Certificate after clean reboot (should fail)] ***
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=18   changed=10   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+

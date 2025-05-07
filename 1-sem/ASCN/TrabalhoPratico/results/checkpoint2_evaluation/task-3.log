@@ -1,0 +1,105 @@
+[Task-3] Starting test 3
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 1] Test access to Moonshot] ****************************************
+
+PLAY [[Test 2] - Create a new Digital Green Certificate] ***********************
+
+PLAY [[Test 2] - Accessing Digital Green Certificate] **************************
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+TASK [k8s-postgres-u : Deletar o Service do PostgreSQL] ************************
+changed: [localhost]
+
+TASK [k8s-postgres-u : Esperar pela remoção do Service do PostgreSQL] **********
+ok: [localhost]
+
+TASK [k8s-postgres-u : Deletar o Deployment do PostgreSQL] *********************
+changed: [localhost]
+
+TASK [k8s-postgres-u : Esperar pela remoção do Deployment do PostgreSQL] *******
+ok: [localhost]
+
+TASK [k8s-postgres-u : Deletar o PostgreSQL PVC] *******************************
+changed: [localhost]
+
+TASK [k8s-postgres-u : Esperar pela remoção do PVC do PostgreSQL] **************
+ok: [localhost]
+
+TASK [k8s-postgres-u : Deletar o Secret do PostgreSQL] *************************
+changed: [localhost]
+
+TASK [k8s-postgres-u : Esperar pela remoção do Secret do PostgreSQL] ***********
+ok: [localhost]
+
+TASK [k8s-postgres-u : Deletar o Pod do PostgreSQL] ****************************
+ok: [localhost]
+
+TASK [k8s-postgres-u : Esperar pela remoção do Pod do PostgreSQL] **************
+ok: [localhost]
+
+TASK [k8s-moonshot-u : Deletar o Service do Moonshot] **************************
+changed: [localhost]
+
+TASK [k8s-moonshot-u : Esperar pela remoção do Service do Moonshot] ************
+FAILED - RETRYING: [localhost]: Esperar pela remoção do Service do Moonshot (10 retries left).
+FAILED - RETRYING: [localhost]: Esperar pela remoção do Service do Moonshot (9 retries left).
+FAILED - RETRYING: [localhost]: Esperar pela remoção do Service do Moonshot (8 retries left).
+ok: [localhost]
+
+TASK [k8s-moonshot-u : Garantir que o app_ip é atualizado no ficheiro YML] *****
+changed: [localhost]
+
+TASK [k8s-moonshot-u : Deletar o Deployment do Moonshot] ***********************
+changed: [localhost]
+
+TASK [k8s-moonshot-u : Esperar pela remoção do Deployment do Moonshot] *********
+ok: [localhost]
+
+TASK [k8s-moonshot-u : Deletar o Secret do Moonshot] ***************************
+changed: [localhost]
+
+TASK [k8s-moonshot-u : Esperar pela remoção do Secret do Moonshot] *************
+ok: [localhost]
+
+TASK [k8s-moonshot-u : Deletar o Pod do Moonshot] ******************************
+ok: [localhost]
+
+TASK [k8s-moonshot-u : Esperar pela remoção do Pod do Moonshot] ****************
+FAILED - RETRYING: [localhost]: Esperar pela remoção do Pod do Moonshot (10 retries left).
+FAILED - RETRYING: [localhost]: Esperar pela remoção do Pod do Moonshot (9 retries left).
+ok: [localhost]
+
+PLAY [[Test 3] Test access to Moonshot (should fail)] **************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [test_moonshot/test_service : Refresh inventory] **************************
+
+TASK [test_moonshot/test_service : Task 0 - Check access to App (HTTP GET should return -1)] ***
+fatal: [localhost]: FAILED! => {"attempts": 1, "changed": false, "elapsed": 0, "msg": "Status code was -1 and not [200]: Request failed: <urlopen error [Errno -2] Name or service not known>", "redirected": false, "status": -1, "url": "http://:80/api/health"}
+...ignoring
+
+TASK [test_moonshot/test_service : Skip the rest of the tasks if result.status != -1] ***
+skipping: [localhost]
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 4] - Accessing Digital Green Certificate after reboot] *************
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 5] - Accessing Digital Green Certificate after clean reboot (should fail)] ***
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=21   changed=8    unreachable=0    failed=0    skipped=1    rescued=0    ignored=1   
+

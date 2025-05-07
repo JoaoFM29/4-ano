@@ -1,0 +1,65 @@
+[Task-2] Starting test 2
+[WARNING]: provided hosts list is empty, only localhost is available. Note that
+the implicit localhost does not match 'all'
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 1] Test access to Moonshot] ****************************************
+
+PLAY [[Test 2] - Create a new Digital Green Certificate] ***********************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_creation : Refresh inventory] *********************
+
+TASK [test_moonshot/test_dgc_creation : Task 0 - Check access to App (HTTP GET should return 200)] ***
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_creation : Task 1 - Login as a Notifier to create a DGC] ***
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_creation : Task 2 - Create a new Recovery DGC] ****
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_creation : Task 3 - Get created Recovery DGC] *****
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_creation : Task 4 - Save DGC uvci for other tests] ***
+ok: [localhost]
+
+PLAY [[Test 2] - Accessing Digital Green Certificate] **************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_access : Refresh inventory] ***********************
+
+TASK [test_moonshot/test_dgc_access : Task 0 - Check access to App (HTTP GET should return 200)] ***
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_access : Task 1 - Login as a Notifier to get a DGC] ***
+ok: [localhost]
+
+TASK [test_moonshot/test_dgc_access : Task 2 - Get Recovery DGC (should return 200)] ***
+ok: [localhost]
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY [[Test 3] Test access to Moonshot (should fail)] **************************
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 4] - Accessing Digital Green Certificate after reboot] *************
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY [Install PostgreSQL & Moonshot with Kubernetes] ***************************
+
+PLAY [[Test 5] - Accessing Digital Green Certificate after clean reboot (should fail)] ***
+
+PLAY [Remove PostgreSQL & Moonshot with Kubernetes] ****************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=10   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

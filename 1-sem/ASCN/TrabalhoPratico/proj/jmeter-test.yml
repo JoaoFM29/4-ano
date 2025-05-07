@@ -1,0 +1,50 @@
+---
+- name: Run JMeter test with Ansible
+  hosts: localhost
+  become: yes
+  vars:
+    jmeter_install_dir: /opt/apache-jmeter-5.6.3
+
+  tasks:
+    - name: Ensure Java is installed
+      ansible.builtin.yum:
+        name: java-11-openjdk
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Ensure Java is installed
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Check if JMeter is already installed
+      ansible.builtin.stat:
+        path: "{{ jmeter_install_dir }}/bin/jmeter"
+      register: jmeter_installed
+
+    - name: Download and install JMeter
+      ansible.builtin.get_url:
+        url: https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz 
+        dest: /tmp/apache-jmeter-5.6.3.tgz 
+      when: not jmeter_installed.stat.exists
+
+    - name: Replace IP address in JMX file
+      ansible.builtin.replace:
+        path: "ThreadGroupAuto.jmx"
+        regexp: '<stringProp name="HTTPSampler.domain">[0-9.]+</stringProp>'
+        replace: '<stringProp name="HTTPSampler.domain">{{ app_ip }}</stringProp>'
+
+    - name: Copy JMX file to target
+      ansible.builtin.copy:
+        src: "ThreadGroupAuto.jmx"
+        dest: "{{ jmeter_install_dir }}/bin/ThreadGroup.jmx"
+
+    - name: Run JMeter test
+      ansible.builtin.command:
+        cmd: "{{ jmeter_install_dir }}/bin/jmeter -n -t {{ jmeter_install_dir }}/bin/ThreadGroup.jmx -l results.jtl"
+      register: jmeter_output
+
+    - name: Display JMeter output
+      ansible.builtin.debug:
+        var: jmeter_output.stdout

@@ -1,0 +1,9 @@
+# Database configurations
+db_network: dnet
+db_host: swap-db
+db_image: mysql:latest
+db_name: swap
+db_port: "3306"
+db_connection: mysql
+swap_image: swapimage
+swap_host: swap-serv

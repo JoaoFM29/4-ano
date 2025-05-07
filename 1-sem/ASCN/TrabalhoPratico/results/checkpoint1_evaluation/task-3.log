@@ -1,0 +1,72 @@
+[Task-3] Creating Docker network...
+a0bece35e35bae8e29be2c3e32a5bf9fa8e3bdbbc5c8423e22ef102e1deacf94
+[Task-3] Starting Postgres container ...
+Unable to find image 'postgres:15.4' locally
+15.4: Pulling from library/postgres
+31ce7ceb6d44: Pulling fs layer
+28caef79f6ed: Pulling fs layer
+be24e278ddaa: Pulling fs layer
+dfdbb4d6f9a3: Pulling fs layer
+ebb06cfd45ec: Pulling fs layer
+9738a56db3f9: Pulling fs layer
+87cb08d2765c: Pulling fs layer
+d99960ffd545: Pulling fs layer
+f24c03b85fa0: Pulling fs layer
+df24783c0dbb: Pulling fs layer
+fe8e668d3844: Pulling fs layer
+f06cc9fdee71: Pulling fs layer
+47d642a348af: Pulling fs layer
+dfdbb4d6f9a3: Waiting
+ebb06cfd45ec: Waiting
+9738a56db3f9: Waiting
+87cb08d2765c: Waiting
+d99960ffd545: Waiting
+f24c03b85fa0: Waiting
+df24783c0dbb: Waiting
+fe8e668d3844: Waiting
+f06cc9fdee71: Waiting
+47d642a348af: Waiting
+28caef79f6ed: Verifying Checksum
+28caef79f6ed: Download complete
+be24e278ddaa: Verifying Checksum
+be24e278ddaa: Download complete
+dfdbb4d6f9a3: Verifying Checksum
+dfdbb4d6f9a3: Download complete
+9738a56db3f9: Download complete
+87cb08d2765c: Verifying Checksum
+87cb08d2765c: Download complete
+31ce7ceb6d44: Verifying Checksum
+31ce7ceb6d44: Download complete
+ebb06cfd45ec: Verifying Checksum
+ebb06cfd45ec: Download complete
+d99960ffd545: Verifying Checksum
+d99960ffd545: Download complete
+31ce7ceb6d44: Pull complete
+28caef79f6ed: Pull complete
+be24e278ddaa: Pull complete
+dfdbb4d6f9a3: Pull complete
+fe8e668d3844: Verifying Checksum
+fe8e668d3844: Download complete
+ebb06cfd45ec: Pull complete
+9738a56db3f9: Pull complete
+87cb08d2765c: Pull complete
+d99960ffd545: Pull complete
+df24783c0dbb: Verifying Checksum
+df24783c0dbb: Download complete
+f06cc9fdee71: Verifying Checksum
+f06cc9fdee71: Download complete
+47d642a348af: Verifying Checksum
+47d642a348af: Download complete
+f24c03b85fa0: Verifying Checksum
+f24c03b85fa0: Download complete
+f24c03b85fa0: Pull complete
+df24783c0dbb: Pull complete
+fe8e668d3844: Pull complete
+f06cc9fdee71: Pull complete
+47d642a348af: Pull complete
+Digest: sha256:d1168ad5397bf9c94cc417c530469805a8767ed585481d93f174461ac8557e3a
+Status: Downloaded newer image for postgres:15.4
+fe70189fcf9c72411b14670b7c935606241b417c2d92d428e914fa4550be4f5a
+[Task-3] Waiting for Postgres to be ready...
+/var/run/postgresql:5432 - no response
+/var/run/postgresql:5432 - accepting connections
