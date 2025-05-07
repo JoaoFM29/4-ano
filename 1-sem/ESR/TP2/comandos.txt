@@ -1,0 +1,17 @@
+cd /home/vagrant/ESR-TP2
+python3 BootStrapper.py 
+python3 Server.py 30000 10.0.30.10 server 10.0.0.10 
+python3 Node.py 10.0.30.10 node3 10.0.9.1 node
+python3 Node.py 10.0.30.10 node8 10.0.8.1 node
+python3 Node.py 10.0.30.10 node7 10.0.17.1 node
+python3 Node.py 10.0.30.10 node10 10.0.14.2 node
+python3 Node.py 10.0.30.10 pop3 10.0.1.1 pop
+python3 Node.py 10.0.30.10 pop2 10.0.24.2 pop
+
+cd /home/vagrant/ESR-TP2
+su - vagrant
+export DISPLAY=:0.0
+python3 Client.py 10.0.30.10 client3 10.0.20.20 movie.Mjpeg
+python3 Client.py 10.0.30.10 client4 10.0.7.20 movie.Mjpeg
+python3 Client.py 10.0.30.10 client5 10.0.16.20 output.mp4
+python3 Client.py 10.0.30.10 client2 10.0.4.20 output.mp4

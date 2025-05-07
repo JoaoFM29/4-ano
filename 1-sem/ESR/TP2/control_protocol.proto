@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package node;
+
+message ControlMessage {
+  enum MessageType {
+    REGISTER = 0;
+    REGISTER_RESPONSE = 1;
+    PING = 2;
+    PONG = 3;
+    UPDATE_NEIGHBORS = 4;
+    ACK = 5; 
+  }
+
+  MessageType type = 1;
+  string node_ip = 2;
+  string node_id = 3;
+  string node_type = 4;
+  repeated NeighborInfo neighbors = 5;
+  int32 control_port = 6;
+  int32 data_port = 7;
+  float timestamp = 8;
+  float accumulated_time = 9;
+  int32 rtsp_port = 10;
+}
+
+message NeighborInfo {
+  string node_id = 1;
+  string node_ip = 2;
+  string node_type = 3;
+  int32 control_port = 4;
+  int32 data_port = 5;
+  int32 rtsp_port = 6;
+}
+
+message FloodingMessage {
+    // Identificador do tipo de mensagem
+    enum MessageType {
+      FLOODING_UPDATE = 0; 
+      ACTIVATE_ROUTE = 1;
+      DEACTIVATE_ROUTE = 2;
+    }
+
+    MessageType type = 1;                // Tipo da mensagem
+    string source_id = 2;                // ID do servidor que está enviando a mensagem
+    repeated string stream_ids = 3;      // ID do fluxo de dados que está sendo transmitido
+    string source_ip = 4;                // IP da origem que está enviando a mensagem
+    string route_state = 5;               // Estado da rota (ativa/inativa)
+    int32 auxAtivation = 6;                       // Auxilia na ativação 
+    int32 control_port = 7; 
+    int32 rtsp_port = 8;  
+    int32 rtp_port = 9;  
+}
